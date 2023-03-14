@@ -1,22 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <robot xmlns:xacro="http://wiki.ros.org/xacro">
 
-  <xacro:property name="base_width" value="0.1"/>
-  <xacro:property name="base_length" value="0.175"/>
-  <xacro:property name="base_height" value="0.088"/>
-  <xacro:property name="base_xoff" value="0.05"/>
-
-  <xacro:property name="wheel_radius" value="0.033"/>
-  <xacro:property name="wheel_width" value="0.025"/>
-  <xacro:property name="wheel_ygap" value="0.0125"/>
-
-  <xacro:property name="axle_zoff" value="0.01"/>
-
-  <xacro:property name="caster_xoff" value="0.02"/>
-
-  <xacro:property name="laser_radius" value="0.035"/>
-  <xacro:property name="laser_height" value="0.055"/>
-  <xacro:property name="laser_zoff" value="0.0175"/>
+  <xacro:include filename="$(find plastic_description)/urdf/common.xacro" />
 
   <xacro:macro name="plastic" params="prefix parent *origin">
     <!-- LINKS -->
@@ -26,19 +11,40 @@
            to get more realistic behaviour-->
       <xacro:default_inertial/>
       <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <box size="${base_length} ${base_width} ${base_height}"/>
+          <cylinder length="0.3" radius="0.3" />
+<!--           <mesh filename="package://plastic_description/meshes/plastic/visual/base_link.dae" /> -->
         </geometry>
-        <origin xyz="${-(base_xoff)} 0.0 0.0" rpy="0 0 0"/>
-        <material name="Cyan">
-          <color rgba="0 1.0 1.0 1.0"/>
-        </material>
       </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <cylinder length="0.3" radius="0.3" />
+<!--           <mesh filename="package://plastic_description/meshes/plastic/collision/base_link.stl" /> -->
+        </geometry>
+      </collision>
     </link>
-
     <!-- link 1 -->
-    <link name="${prefix}base_footprint" />
-
+    <link name="${prefix}link1">
+      <!-- Default inertial for Gazebo/Ingnition - copy and edit block from 'common.xacro'
+           to get more realistic behaviour-->
+      <xacro:default_inertial/>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <cylinder length="0.3" radius="0.15" />
+<!--           <mesh filename="package://plastic_description/meshes/plastic/visual/link1.dae" /> -->
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <cylinder length="0.3" radius="0.15" />
+<!--           <mesh filename="package://plastic_description/meshes/plastic/collision/link1.stl" /> -->
+        </geometry>
+      </collision>
+    </link>
     <!-- link 2 -->
     <link name="${prefix}link2">
       <!-- Default inertial for Gazebo/Ingnition - copy and edit block from 'common.xacro'
@@ -143,6 +149,16 @@
     <!-- All-zero tool frame. This frame should correspond to the TOOL frame of the robot's controller.) -->
     <link name="${prefix}tool0" />
     <!-- tool link -->
+
+<!-- START Delete if not needed -->
+    <!-- Standard frames for industrial robots. Also useful for manipulators.
+         (ROS-I specs - https://wiki.ros.org/Industrial/Tutorials/WorkingWithRosIndustrialRobotSupportPackages#Standardised_links_.2F_frames)-->
+    <!-- This frame should correspond to the BASE coordinate system of robot's controller.) -->
+    <link name="${prefix}base" />
+    <!-- Frame for mounting EEF models to a manipulator. x+ axis points forward (REP 103). -->
+    <link name="${prefix}flange" />
+<!-- END Delete if not needed  -->
+    <!-- END LINKS -->
 
     <!-- JOINTS -->
     <!-- base_joint fixes base_link to the environment -->
