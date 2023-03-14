@@ -18,84 +18,212 @@
   <xacro:property name="laser_height" value="0.055"/>
   <xacro:property name="laser_zoff" value="0.0175"/>
 
-  <link name="base_link">
-    <visual>
-      <geometry>
-        <box size="${base_length} ${base_width} ${base_height}"/>
-      </geometry>
-      <origin xyz="${-(base_xoff)} 0.0 0.0" rpy="0 0 0"/>
-      <material name="Cyan">
-        <color rgba="0 1.0 1.0 1.0"/>
-      </material>
-    </visual>
-  </link>
-
-  <link name="base_footprint"/>
-
-  <joint name="base_joint" type="fixed">
-    <parent link="base_link"/>
-    <child link="base_footprint"/>
-    <origin xyz="0.0 0.0 ${-(wheel_radius+axle_zoff+(base_height/2))}" rpy="0 0 0"/>
-  </joint>
-
-  <xacro:macro name="wheel" params="prefix x_reflect y_reflect">
-    <link name="${prefix}_link">
+  <xacro:macro name="plastic" params="prefix parent *origin">
+    <!-- LINKS -->
+    <!-- base link -->
+    <link name="${prefix}base_link">
+      <!-- Default inertial for Gazebo/Ingnition - copy and edit block from 'common.xacro'
+           to get more realistic behaviour-->
+      <xacro:default_inertial/>
       <visual>
-        <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
         <geometry>
-            <cylinder radius="${wheel_radius}" length="${wheel_width}"/>
+          <box size="${base_length} ${base_width} ${base_height}"/>
         </geometry>
-        <material name="Gray">
-          <color rgba="0.5 0.5 0.5 1.0"/>
+        <origin xyz="${-(base_xoff)} 0.0 0.0" rpy="0 0 0"/>
+        <material name="Cyan">
+          <color rgba="0 1.0 1.0 1.0"/>
         </material>
       </visual>
     </link>
 
-    <joint name="${prefix}_joint" type="continuous">
-      <parent link="base_link"/>
-      <child link="${prefix}_link"/>
-      <origin xyz="0.0 ${y_reflect*(base_width/2+wheel_ygap)} ${-(axle_zoff+(base_height/2))}" rpy="0 0 0"/>
-      <axis xyz="0 1 0"/>
+    <!-- link 1 -->
+    <link name="${prefix}base_footprint" />
+
+    <!-- link 2 -->
+    <link name="${prefix}link2">
+      <!-- Default inertial for Gazebo/Ingnition - copy and edit block from 'common.xacro'
+           to get more realistic behaviour-->
+      <xacro:default_inertial/>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <cylinder length="0.8" radius="0.15" />
+<!--           <mesh filename="package://plastic_description/meshes/plastic/visual/link2.dae" /> -->
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <cylinder length="0.8" radius="0.15" />
+<!--           <mesh filename="package://plastic_description/meshes/plastic/collision/link2.stl"  /> -->
+        </geometry>
+      </collision>
+    </link>
+    <!-- link 3 -->
+    <link name="${prefix}link3">
+      <!-- Default inertial for Gazebo/Ingnition - copy and edit block from 'common.xacro'
+           to get more realistic behaviour-->
+      <xacro:default_inertial/>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <cylinder length="0.5" radius="0.10" />
+<!--           <mesh filename="package://plastic_description/meshes/plastic/visual/link3.dae" /> -->
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <cylinder length="0.5" radius="0.10" />
+<!--           <mesh filename="package://plastic_description/meshes/plastic/collision/link3.stl"  /> -->
+        </geometry>
+      </collision>
+    </link>
+    <!-- link 4 -->
+    <link name="${prefix}link4">
+      <!-- Default inertial for Gazebo/Ingnition - copy and edit block from 'common.xacro'
+           to get more realistic behaviour-->
+      <xacro:default_inertial/>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <cylinder length="0.1" radius="0.2" />
+<!--           <mesh filename="package://plastic_description/meshes/plastic/visual/link4.dae" /> -->
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <cylinder length="0.1" radius="0.2" />
+<!--           <mesh filename="package://plastic_description/meshes/plastic/collision/link4.stl"  /> -->
+        </geometry>
+      </collision>
+    </link>
+    <!-- link 5 -->
+    <link name="${prefix}link5">
+      <!-- Default inertial for Gazebo/Ingnition - copy and edit block from 'common.xacro'
+           to get more realistic behaviour-->
+      <xacro:default_inertial/>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <cylinder length="0.2" radius="0.1" />
+<!--           <mesh filename="package://plastic_description/meshes/plastic/visual/link5.dae" /> -->
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <cylinder length="0.2" radius="0.1" />
+<!--           <mesh filename="package://plastic_description/meshes/plastic/collision/link5.stl" /> -->
+        </geometry>
+      </collision>
+    </link>
+    <!-- link 6 -->
+    <link name="${prefix}link6">
+      <!-- Default inertial for Gazebo/Ingnition - copy and edit block from 'common.xacro'
+           to get more realistic behaviour-->
+      <xacro:default_inertial/>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <cylinder length="0.05" radius="0.1" />
+<!--           <mesh filename="package://plastic_description/meshes/plastic/visual/link6.dae" /> -->
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <cylinder length="0.05" radius="0.1" />
+<!--           <mesh filename="package://plastic_description/meshes/plastic/collision/link6.stl" /> -->
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- All-zero tool frame. This frame should correspond to the TOOL frame of the robot's controller.) -->
+    <link name="${prefix}tool0" />
+    <!-- tool link -->
+
+    <!-- JOINTS -->
+    <!-- base_joint fixes base_link to the environment -->
+    <joint name="${prefix}base_joint" type="fixed">
+      <xacro:insert_block name="origin" />
+      <parent link="${parent}" />
+      <child link="${prefix}base_link" />
     </joint>
+    <!-- joint 1 -->
+    <joint name="${prefix}joint1" type="revolute">
+      <origin xyz="0 0 0.3" rpy="${pi} 0 0" />
+      <parent link="${prefix}base_link" />
+      <child link="${prefix}link1" />
+      <axis xyz="0 0 1" />
+      <limit effort="0" lower="${radians(-180)}" upper="${radians(180)}" velocity="${radians(180)}" />
+    </joint>
+    <!-- joint 2 -->
+    <joint name="${prefix}joint2" type="revolute">
+      <origin xyz="0 0 0.3" rpy="${pi/2} 0 0" />
+      <parent link="${prefix}link1" />
+      <child link="${prefix}link2" />
+      <axis xyz="0 0 1" />
+      <limit effort="0" lower="${radians(-180)}" upper="${radians(180)}" velocity="${radians(180)}" />
+    </joint>
+    <!-- joint 3 -->
+    <joint name="${prefix}joint3" type="revolute">
+      <origin xyz="0.8 0 0" rpy="0 0 0" />
+      <parent link="${prefix}link2" />
+      <child link="${prefix}link3" />
+      <axis xyz="0 0 1" />
+      <limit effort="0" lower="${radians(-90)}" upper="${radians(180)}" velocity="${radians(270)}" />
+    </joint>
+    <!-- joint 4 -->
+    <joint name="${prefix}joint4" type="revolute">
+      <origin xyz="0 0.1 0" rpy="0 ${-pi/2} 0" />
+      <parent link="${prefix}link3" />
+      <child link="${prefix}link4" />
+      <axis xyz="0 0 1" />
+      <limit effort="0" lower="${radians(-360)}" upper="${radians(360)}" velocity="${radians(360)}" />
+    </joint>
+    <!-- joint 5 -->
+    <joint name="${prefix}joint5" type="revolute">
+      <origin xyz="0 0 -0.1" rpy="0 ${pi/2} 0" />
+      <parent link="${prefix}link4" />
+      <child link="${prefix}link5" />
+      <axis xyz="0 0 1" />
+      <limit effort="0" lower="${radians(-120)}" upper="${radians(120)}" velocity="${radians(540)}" />
+    </joint>
+    <!-- joint 6 -->
+    <joint name="${prefix}joint6" type="revolute">
+      <origin xyz="0 0 0.1" rpy="0 ${-pi/2} 0" />
+      <parent link="${prefix}link5" />
+      <child link="${prefix}link6" />
+      <axis xyz="0 0 1" />
+      <limit effort="0" lower="${radians(-360)}" upper="${radians(360)}" velocity="${radians(720)}" />
+    </joint>
+
+    <!-- tool frame - fixed frame -->
+    <joint name="${prefix}joint6-tool0" type="fixed">
+      <parent link="${prefix}link6" />
+      <child link="${prefix}tool0" />
+      <origin xyz="0 0 -0.115" rpy="0 ${-pi} ${-pi/2}" />
+    </joint>
+    <!-- END JOINTS -->
+
+<!-- START Delete if not needed -->
+    <!-- Standard frames for industrial robots. Also useful for manipulators.
+         (ROS-I specs - https://wiki.ros.org/Industrial/Tutorials/WorkingWithRosIndustrialRobotSupportPackages#Standardised_links_.2F_frames)-->
+    <joint name="${prefix}base_link-base_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <parent link="${prefix}base_link" />
+      <child link="${prefix}base" />
+    </joint>
+
+    <joint name="${prefix}tool0-flange_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <parent link="${prefix}tool0" />
+      <child link="${prefix}flange" />
+    </joint>
+<!-- END Delete if not needed  -->
+
+
   </xacro:macro>
-
-  <xacro:wheel prefix="left_wheel" x_reflect="-1" y_reflect="1" />
-  <xacro:wheel prefix="right_wheel" x_reflect="-1" y_reflect="-1" />
-
-  <link name="front_caster">
-    <visual>
-      <geometry>
-        <cylinder radius="${wheel_radius/2}" length="${wheel_radius + axle_zoff}"/>
-      </geometry>
-      <origin xyz="0 0 ${-((wheel_radius + axle_zoff)/2)}" rpy="0 0 0"/>
-      <material name="Gray">
-        <color rgba="0.5 0.5 0.5 1.0"/>
-      </material>
-    </visual>
-  </link>
-
-  <joint name="caster_joint" type="fixed">
-    <parent link="base_link"/>
-    <child link="front_caster"/>
-    <origin xyz="${-(base_xoff + (base_length/2) - caster_xoff)} 0.0 ${-(base_height/2)}" rpy="0 0 0"/>
-  </joint>
-
-  <link name="laser">
-    <visual>
-      <geometry>
-        <cylinder radius="${laser_radius}" length="${laser_height}"/>
-      </geometry>
-      <origin xyz="0 0 ${-(laser_zoff)}" rpy="0 0 0"/>
-      <material name="Gray">
-        <color rgba="0.5 0.5 0.5 1.0"/>
-      </material>
-    </visual>
-  </link>
-
-  <joint name="laser_joint" type="fixed">
-    <parent link="base_link"/>
-    <child link="laser"/>
-    <origin xyz="0.0 0.0 ${(base_height/2)+(laser_height/2)+laser_zoff}" rpy="0 0 0"/>
-  </joint>
-    
 </robot>
